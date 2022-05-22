@@ -1,32 +1,49 @@
+// const level = [
+//   [1, 2, 3, 3, 2, 2, 1, 0, 1, 2],
+//   [1, 1, 1, 3, 3, 2, 1, 0, 0, 1],
+//   [1, 2, 2, 2, 0, 1, 1, 3, 1, 1],
+//   [2, 2, 3, 3, 0, 0, 0, 3, 3, 1],
+//   [2, 3, 3, 0, 0, 1, 2, 0, 0, 2],
+//   [2, 2, 3, 1, 1, 2, 2, 2, 0, 2],
+//   [1, 1, 1, 3, 3, 2, 1, 0, 0, 1],
+//   [1, 2, 2, 2, 0, 1, 1, 3, 1, 1],
+//   [2, 2, 3, 3, 0, 0, 0, 3, 3, 1],
+//   [2, 3, 3, 0, 0, 1, 2, 0, 0, 2],
+// ];
+
 const level = [
-  [1, 2, 3, 3, 2, 2, 1, 4, 1, 2],
-  [1, 1, 1, 3, 3, 2, 1, 4, 4, 1],
-  [1, 2, 2, 2, 4, 1, 1, 3, 1, 1],
-  [2, 2, 3, 3, 4, 4, 4, 3, 3, 1],
-  [2, 3, 3, 4, 4, 1, 2, 4, 4, 2],
-  [2, 2, 3, 1, 1, 2, 2, 2, 4, 2],
-  [1, 1, 1, 3, 3, 2, 1, 4, 4, 1],
-  [1, 2, 2, 2, 4, 1, 1, 3, 1, 1],
-  [2, 2, 3, 3, 4, 4, 4, 3, 3, 1],
-  [2, 3, 3, 4, 4, 1, 2, 4, 4, 2],
+  [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 1, 2, 2, 2, 1, 5, 5, 1, 0, 0, 0, 0],
+  [0, 0, 0, 1, 2, 2, 2, 2, 1, 5, 5, 5, 5, 1, 0, 0, 0],
+  [0, 1, 1, 1, 1, 2, 2, 2, 1, 5, 5, 5, 1, 5, 1, 0, 0],
+  [1, 5, 5, 5, 5, 1, 2, 2, 1, 5, 5, 5, 1, 5, 1, 0, 0],
+  [1, 5, 5, 5, 5, 5, 1, 2, 2, 1, 5, 5, 5, 5, 1, 0, 0],
+  [1, 2, 5, 5, 5, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 2, 2, 2, 1, 2, 2, 2, 1, 4, 4, 4, 4, 4, 4, 1],
+  [0, 0, 1, 1, 1, 3, 3, 3, 1, 4, 1, 1, 1, 1, 1, 1, 0],
+  [0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 4, 4, 4, 4, 4, 1, 0],
+  [0, 0, 0, 1, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 0, 0],
+  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-var currentColor = 1;
+var currentColor = 0;
 var currentCellColoredWithCurrentColor = 0;
 
 let numberOfEachColor = [0, 0, 0, 0, 0, 0];
 // let numberOfEachColor = [29, 28, 21, 22, 0, 0];
-var numberOfCellInLevel = 100;
+var numberOfCellInLevel;
+var maxColor = 1;
 
-const width = 10,
-  height = 10;
+const width = 17,
+  height = 12;
 
-const map = new Map([
-  [1, "red"],
-  [2, "green"],
-  [3, "blue"],
-  [4, "yellow"],
-]);
+colorCodes = ["red", "green", "blue", "yellow", "cyan", "purple"];
+// const map = new Map([
+//   [1, "#131313"],
+//   [2, "green"],
+//   [3, "blue"],
+//   [4, "yellow"],
+// ]);
 
 var mousedown = 0;
 
@@ -34,7 +51,7 @@ document.body.onmousedown = function () {
   ++mousedown;
 };
 
-document.body.onmouseup = function () {
+document.body.onemouseup = function () {
   --mousedown;
 };
 
@@ -61,7 +78,7 @@ function loadLevel() {
         ", " +
         j +
         ')">' +
-        level[i][j] +
+        (level[i][j] + 1) +
         "</div>";
     }
 
@@ -81,42 +98,24 @@ function loadLevel() {
   console.log("5 amount: " + numberOfEachColor[4]);
   console.log("6     amount: " + numberOfEachColor[5]);
 
+  createUI();
   console.log("end of load");
 }
 
+function createUI() {
+  for (let i = 0; i < 6; i++) {
+    uicell =
+      '<div class ="ui-cell ' + colorCodes[i] + '">' + (i + 1) + "</div>";
+    document.getElementById("ui").insertAdjacentHTML("beforeend", uicell);
+    document.querySelector("." + colorCodes[i]).style.background =
+      colorCodes[i];
+  }
+}
+
 function InitNumberOfEachColor() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      switch (level[i][j]) {
-        case 1:
-          // code block
-          numberOfEachColor[0]++;
-          break;
-        case 2:
-          // code block
-          numberOfEachColor[1] += 1;
-
-          break;
-        case 3:
-          // code block
-          numberOfEachColor[2] += 1;
-
-          break;
-        case 4:
-          // code block
-          numberOfEachColor[3] += 1;
-
-          break;
-        case 5:
-          // code block
-          numberOfEachColor[4] += 1;
-
-          break;
-        case 6:
-          numberOfEachColor[5] += 1;
-          // code block
-          break;
-      }
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      numberOfEachColor[level[i][j]]++;
     }
   }
 }
@@ -124,10 +123,7 @@ function InitNumberOfEachColor() {
 function colorize(a, b) {
   var cell;
   var x, y;
-  if (currentCellColoredWithCurrentColor === numberOfEachColor[currentColor]) {
-    currentColor++;
-    currentCellColoredWithCurrentColor = 0;
-  }
+
   for (let i = -1; i <= 1; i++) {
     for (let j = -1; j <= 1; j++) {
       x = a + i;
@@ -142,12 +138,36 @@ function colorize(a, b) {
           !cell.classList.contains("colored")
         ) {
           cell.classList += " colored";
-          cell.style.background = map.get(currentColor);
+          cell.style.background = colorCodes[level[x][y]];
           cell.innerHTML = "";
           currentCellColoredWithCurrentColor++;
           console.log(currentCellColoredWithCurrentColor);
+          console.log(currentColor);
+          checkAndChangeCurrentColor();
         }
       }
+    }
+  }
+}
+
+function checkAndChangeCurrentColor() {
+  if (currentCellColoredWithCurrentColor === numberOfEachColor[currentColor]) {
+    // for(let i=0;i<height;i++){
+    //     for(let j=0;j<width;j++){
+
+    //     }
+    // }
+
+    // document.querySelector("." + colorCodes[currentColor]).classList +=
+    //   " .blurred";
+    document.querySelector("." + colorCodes[currentColor]).classList +=
+      " color-end";
+    currentColor++;
+    currentCellColoredWithCurrentColor = 0;
+    if (currentColor === maxColor) {
+      document.getElementById("#game-field").innerHTML = "";
+      document.getElementById("ui").innerHTML = "";
+      document.getElementById("endscreen").style.opacity = 1;
     }
   }
 }
@@ -171,4 +191,4 @@ function dragColorize(e) {
   }
 }
 
-window.onload = function () {};
+window.onload = loadLevel;

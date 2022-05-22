@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="zxx">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-        <title>Playable ass</title>
+    <title>Playable ass</title>
 
-        <link rel="stylesheet" href="/style.css" type="text/css" />
-    </head>
+    <link rel="stylesheet" href="/style.css" type="text/css" />
+  </head>
 
-    <body>
-        <div>
-            <button id="play-btn" onclick="loadLevel()">Play</button>
-        </div>
+  <body>
+    <div id="#game-field" onmousemove="dragColorize(event)"></div>
+    <div id="ui"></div>
 
-        <div id="#game-field" onmousemove="dragColorize(event)"></div>
-
-        <script src="/main.js"></script>
-    </body>
+    <div class="endscreen" id="endscreen">
+      <img src="img/logo.png" alt="Logo cua chung ta" />
+      <img
+        src="img/photo_2022-04-15_16-59-14.jpg  "
+        alt="example endscreen"
+        class="example"
+      />
+      <button
+        class="cta-button"
+        onclick="window.open('https://play.google.com/store/apps/details?id=com.color.number.sanbox.pixel.art')"
+      >
+        INSTALL
+      </button>
+    </div>
+    <script src="/main.js"></script>
+  </body>
 </html>
