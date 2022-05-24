@@ -1,5 +1,13 @@
-#play-btn {
-  margin-bottom: 25px;
+#game-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  transition: opacity 1s ease-in-out;
+}
+
+.playable {
+  width: 100%;
 }
 
 .row {
@@ -8,6 +16,7 @@
 }
 
 .cell {
+  flex: 1;
   font-size: 24px;
   width: 50px;
   height: 50px;
@@ -41,13 +50,28 @@
   /* transition-duration: 0.5s;
   transition-property: opacity; */
   text-align: center;
-  line-height: 50px;
   color: white;
   font-weight: 900;
 }
 
 .color-end {
   animation: nhapnhay 1s infinite;
+}
+
+.game-content {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 1s ease-in-out;
+}
+
+#logo {
+  position: relative;
 }
 
 @keyframes nhapnhay {
@@ -64,18 +88,62 @@
 }
 
 .endscreen {
+  width: 100%;
   justify-content: center;
   align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   position: absolute;
+  transition: opacity 1s ease-in-out;
   top: 0;
   opacity: 0;
   z-index: -1;
 }
 
+.logoandbutton {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.highlighted {
+  background-color: bisque;
+}
+
 .cta-button {
-  width: max-content;
+  max-width: 12em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #f4511e;
+  border: none;
+  color: #fcfdfd;
+  text-align: center;
+
+  font-size: 40px;
+  /* padding: 20px; */
+  width: 80%;
+  height: 100px;
+  animation: zoom-in-zoom-out 1.5s ease infinite;
+  cursor: pointer;
+  margin: 5px;
+}
+@keyframes zoom-in-zoom-out {
+  0% {
+    transform: scale(1, 1);
+  }
+
+  50% {
+    transform: scale(1.2, 1.2);
+  }
+
+  100% {
+    transform: scale(1, 1);
+  }
 }
 .non-select {
   -webkit-touch-callout: none;
@@ -84,4 +152,25 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/* chung của điện thoại và tablet */
+/* @media only screen and(max-width: 40.9375em) {
+  .game-content {
+    flex-direction: column;
+    background-color: aqua;
+  }
+} */
+
+/*  tablet*/
+
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+
+/* điện thoại */
+@media only screen and (max-width: 46.25em) {
+  .endscreen {
+    width: 100%;
+    flex-direction: column-reverse;
+  }
 }

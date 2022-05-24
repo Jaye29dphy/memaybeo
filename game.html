@@ -11,23 +11,46 @@
   </head>
 
   <body>
-    <div id="#game-field" onmousemove="dragColorize(event)"></div>
-    <div id="ui"></div>
+    <div class="playable">
+      <div class="game-content">
+        <div id="game-field" onmousemove="dragColorize(event)">
+          <h1>SWIPE TO PLAY</h1>
+        </div>
+        <div class="footer" id="footer">
+          <div id="ui"></div>
+          <img
+            src="img/logo.png"
+            alt="logo cua chung ta"
+            class="logo"
+            onclick="window.open('https://play.google.com/store/apps/details?id=com.color.number.sanbox.pixel.art')"
+          />
+          <div
+            class="cta-button"
+            onclick="window.open('https://play.google.com/store/apps/details?id=com.color.number.sanbox.pixel.art')"
+          >
+            <p>INSTALL</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="endscreen" id="endscreen">
-      <img src="img/logo.png" alt="Logo cua chung ta" />
-      <img
-        src="img/photo_2022-04-15_16-59-14.jpg  "
-        alt="example endscreen"
-        class="example"
-      />
-      <button
-        class="cta-button"
-        onclick="window.open('https://play.google.com/store/apps/details?id=com.color.number.sanbox.pixel.art')"
-      >
-        INSTALL
-      </button>
+      <div class="endscreen" id="endscreen">
+        <div class="logoandbutton">
+          <img src="img/logo.png" alt="Logo cua chung ta" />
+          <button
+            class="cta-button"
+            onclick="window.open('https://play.google.com/store/apps/details?id=com.color.number.sanbox.pixel.art')"
+          >
+            <p>INSTALL</p>
+          </button>
+        </div>
+        <img
+          src="img/photo_2022-04-15_16-59-14.jpg  "
+          alt="example endscreen"
+          class="example"
+        />
+      </div>
     </div>
+
     <script src="/main.js"></script>
   </body>
 </html>

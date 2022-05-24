@@ -11,6 +11,9 @@
 //   [2, 3, 3, 0, 0, 1, 2, 0, 0, 2],
 // ];
 
+// const width = 10,
+//   height = 10;
+
 const level = [
   [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 1, 1, 2, 2, 2, 1, 5, 5, 1, 0, 0, 0, 0],
@@ -26,16 +29,16 @@ const level = [
   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 ];
 
+const width = 17,
+  height = 12;
+
 var currentColor = 0;
+var maxColor = 6;
 var currentCellColoredWithCurrentColor = 0;
 
 let numberOfEachColor = [0, 0, 0, 0, 0, 0];
 // let numberOfEachColor = [29, 28, 21, 22, 0, 0];
 var numberOfCellInLevel;
-var maxColor = 1;
-
-const width = 17,
-  height = 12;
 
 colorCodes = ["red", "green", "blue", "yellow", "cyan", "purple"];
 // const map = new Map([
@@ -51,19 +54,9 @@ document.body.onmousedown = function () {
   ++mousedown;
 };
 
-document.body.onemouseup = function () {
+document.body.onmouseup = function () {
   --mousedown;
 };
-
-function reload() {
-  var gameField = document.getElementById("#game-field");
-  if (gameField.innerHTML == "") {
-    loadLevel();
-  } else {
-    gameField.innerHTML = "";
-    loadLevel();
-  }
-}
 
 function loadLevel() {
   var str = "";
@@ -73,7 +66,7 @@ function loadLevel() {
 
     for (let j = 0; j < width; j++) {
       str +=
-        '<div class="cell non-select" onclick="colorize(' +
+        '<div class="cell non-select" onmouseclick="colorize(' +
         i +
         ", " +
         j +
@@ -85,7 +78,7 @@ function loadLevel() {
     str += "</div>";
   }
 
-  document.getElementById("#game-field").insertAdjacentHTML("beforeend", str);
+  document.getElementById("game-field").insertAdjacentHTML("beforeend", str);
 
   // init number of each color
 
@@ -99,13 +92,20 @@ function loadLevel() {
   console.log("6     amount: " + numberOfEachColor[5]);
 
   createUI();
+  highlightCell(currentColor);
   console.log("end of load");
 }
 
 function createUI() {
   for (let i = 0; i < 6; i++) {
     uicell =
-      '<div class ="ui-cell ' + colorCodes[i] + '">' + (i + 1) + "</div>";
+      '<div class ="ui-cell ' +
+      colorCodes[i] +
+      '">' +
+      '<p class="inner">' +
+      (i + 1) +
+      "</p>" +
+      "</div>";
     document.getElementById("ui").insertAdjacentHTML("beforeend", uicell);
     document.querySelector("." + colorCodes[i]).style.background =
       colorCodes[i];
@@ -130,7 +130,7 @@ function colorize(a, b) {
       y = b + j;
       if (x >= 0 && y >= 0 && x < height && y < width) {
         cell = document.querySelector(
-          '[onclick="colorize(' + x + ", " + y + ')"]'
+          '[onmouseclick="colorize(' + x + ", " + y + ')"]'
         );
 
         if (
@@ -143,6 +143,8 @@ function colorize(a, b) {
           currentCellColoredWithCurrentColor++;
           console.log(currentCellColoredWithCurrentColor);
           console.log(currentColor);
+          var soundclick = new Audio("soundclick.mp3"); // buffers automatically when created
+          soundclick.play();
           checkAndChangeCurrentColor();
         }
       }
@@ -152,26 +154,38 @@ function colorize(a, b) {
 
 function checkAndChangeCurrentColor() {
   if (currentCellColoredWithCurrentColor === numberOfEachColor[currentColor]) {
-    // for(let i=0;i<height;i++){
-    //     for(let j=0;j<width;j++){
-
-    //     }
-    // }
-
-    // document.querySelector("." + colorCodes[currentColor]).classList +=
-    //   " .blurred";
     document.querySelector("." + colorCodes[currentColor]).classList +=
       " color-end";
+
+    document.querySelectorAll(".inner")[currentColor].innerHTML = "✓";
     currentColor++;
+    highlightCell(currentColor);
     currentCellColoredWithCurrentColor = 0;
-    if (currentColor === maxColor) {
-      document.getElementById("#game-field").innerHTML = "";
-      document.getElementById("ui").innerHTML = "";
-      document.getElementById("endscreen").style.opacity = 1;
+  }
+  if (currentColor === maxColor) {
+    finishGame();
+  }
+}
+
+function highlightCell(color) {
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      if (level[i][j] === color) {
+        cell = document.querySelector(
+          '[onmouseclick="colorize(' + i + ", " + j + ')"]'
+        );
+        cell.style.background = "bisque";
+      }
     }
   }
 }
 
+function finishGame() {
+  document.getElementById("game-field").style.opacity = 0;
+  document.getElementById("ui").style.opacity = 0;
+  document.getElementById("endscreen").style.opacity = 1;
+  document.getElementById("footer").style.opacity = 0;
+}
 function dragColorize(e) {
   var cell;
   var str;
@@ -180,7 +194,7 @@ function dragColorize(e) {
 
   if (e.target.className == "cell non-select" && mousedown) {
     cell = e.target;
-    str = cell.getAttribute("onclick");
+    str = cell.getAttribute("onmouseclick");
     str = str.replace("colorize(", "");
     str = str.replace(")", "");
     str = str.replace(",", "");
