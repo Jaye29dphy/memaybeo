@@ -50,11 +50,11 @@ colorCodes = ["red", "green", "blue", "yellow", "cyan", "purple"];
 
 var mousedown = 0;
 
-document.body.onmousedown = function () {
+document.body.ontouchstart = function () {
   ++mousedown;
 };
 
-document.body.onmouseup = function () {
+document.body.ontouchcancel = function () {
   --mousedown;
 };
 
@@ -66,7 +66,7 @@ function loadLevel() {
 
     for (let j = 0; j < width; j++) {
       str +=
-        '<div class="cell non-select" onmouseclick="colorize(' +
+        '<div class="cell non-select" ontouchstart="colorize(' +
         i +
         ", " +
         j +
@@ -130,7 +130,7 @@ function colorize(a, b) {
       y = b + j;
       if (x >= 0 && y >= 0 && x < height && y < width) {
         cell = document.querySelector(
-          '[onmouseclick="colorize(' + x + ", " + y + ')"]'
+          '[ontouchstart="colorize(' + x + ", " + y + ')"]'
         );
 
         if (
@@ -172,7 +172,7 @@ function highlightCell(color) {
     for (let j = 0; j < width; j++) {
       if (level[i][j] === color) {
         cell = document.querySelector(
-          '[onmouseclick="colorize(' + i + ", " + j + ')"]'
+          '[ontouchstart="colorize(' + i + ", " + j + ')"]'
         );
         cell.style.background = "bisque";
       }
@@ -194,7 +194,7 @@ function dragColorize(e) {
 
   if (e.target.className == "cell non-select" && mousedown) {
     cell = e.target;
-    str = cell.getAttribute("onmouseclick");
+    str = cell.getAttribute("ontouchstart");
     str = str.replace("colorize(", "");
     str = str.replace(")", "");
     str = str.replace(",", "");
